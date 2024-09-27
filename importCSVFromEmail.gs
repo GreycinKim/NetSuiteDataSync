@@ -1,6 +1,6 @@
-function importCSVFrenchBullInventory() {
+function importCSVFromEmail() {
   // Define search criteria for the email subject
-  var query = 'subject:"(JY) French Bull Inventory" has:attachment';
+  var query = 'subject:"EXAMPLE SUBJECT TITLE" has:attachment';
   var threads = GmailApp.search(query);
   
   if (threads.length === 0) {
@@ -27,7 +27,7 @@ function importCSVFrenchBullInventory() {
       var parsedData = Utilities.parseCsv(csvData);
 
       // Get "Sheet2" and clear its contents before importing new data
-      var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('(JY) French Bull Inventory');
+      var sheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('SHEET1'); // Google Sheet Name
       if (!sheet) {
         Logger.log('(JY) French Bull Inventory does not exist.');
         return;
