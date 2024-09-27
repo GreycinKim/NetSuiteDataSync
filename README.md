@@ -1,1 +1,14 @@
 # NetSuiteDataSync
+
+## 1. Authenticate and connecting API
+
+To connect NetSuite to the Google Sheets API using OAuth 2.0 authentication, you can use the provided script to manage the authorization process. 
+First, you set up the OAuth service with NetSuite’s authorization and token URLs, along with your Client ID and Client Secret obtained from NetSuite’s integration setup. This service is defined in the getOAuthService function, where you also specify the required scopes (rest_webservices and restlets) and a callback URL to handle authorization responses. 
+
+The user is redirected to NetSuite's authorization page, and upon success, NetSuite returns an authorization code to the callback URL (authCallback). If successful, the user is informed that the process is complete. Once authorized, you can make API requests to fetch or send data between NetSuite and Google Sheets. The authorize function checks if the user has already granted access; otherwise, it provides the URL for authorization. To reset the connection, the resetAuthorization function clears the stored tokens, allowing the user to start the authorization process again.
+
+## 2. Fetching Data Directly from Netsuite
+The runCustomerDataFetch() function initiates a process to fetch customer data from NetSuite by calling fetchNetSuiteCustomerData() with a list of customer IDs. The fetchNetSuiteCustomerData() function first checks if the OAuth2 authorization to NetSuite is valid, ensuring that the script has the necessary access. It then loops through each customer ID, constructs an API request to NetSuite's REST API, and retrieves detailed customer data, including fields like Customer ID, Company Name, Email, Phone, Address, and Balance. This data is then written to a specified Google Sheet, starting from the next available row. If any errors occur during the data fetch process, such as a failed request or invalid customer ID, the function logs these errors for troubleshooting. The script effectively integrates NetSuite data into Google Sheets for further analysis or reporting.
+
+## 3. Fetching Data Directly from Email
+The importCSVFromEmail() function automates the process of importing a CSV file from a specific email attachment into a Google Sheet. It begins by searching for an email with the subject "French Bull Inventory" that contains an attachment. Once found, it selects the most recent email in the thread and checks the attachment to ensure it's a CSV file. The data from the CSV is then parsed and prepared for import. The script clears the contents of a specified sheet, starting from row 2 (to preserve headers), and manually sets predefined column headers in the first row. After confirming there is data to import, it writes the parsed CSV data into the sheet starting at row 2. The function logs messages for success or errors, such as if no items are found in the CSV or if the attachment is not a CSV file.
